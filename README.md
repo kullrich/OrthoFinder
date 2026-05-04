@@ -74,6 +74,18 @@ To activate the virtual environment you have created, run:
 ```bash
 . of3_env/bin/activate
 ```
+### Install LAST (optional)
+Available here: https://gitlab.com/mcfrith/last/-/tags
+
+Download latest version, extract it, compile and copy the executable to a directory in your system path, e.g.:
+- `wget https://gitlab.com/mcfrith/last/-/archive/1651/last-1651.tar.gz`
+- `tar xzf last-1651.tar.gz`
+- `cd last-1651; make; cd ..`
+- `sudo cp last-1651/bin/* /usr/local/bin`
+
+or alternatively if you don't have root privileges, instead of the last step above, add the directory containing the directory to your PATH variable 
+- ``export PATH=$PATH:`pwd`/last-1651/bin/``
+
 ### Test your installation
 
 Once you have installed OrthoFinder, you can print the help information and version, and test it on the [example data](https://github.com/OrthoFinder/OrthoFinder/releases/download/v3.1.4/ExampleData.tar.gz).
