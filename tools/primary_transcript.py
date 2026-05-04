@@ -1,9 +1,20 @@
 import os
 import re
 import sys
+import gzip
 from collections import Counter, defaultdict
 
 # Use the 'all' version rather than ab initio
+
+
+def open_gzip(fn):
+    """
+    Opens regular or gzipped files
+    """
+    if fn.endswith('.gz'):
+        return gzip.open(fn, 'rt')
+    return open(fn, 'r')
+
 
 def CheckFile(fn):
     """
@@ -11,7 +22,7 @@ def CheckFile(fn):
     - Duplicated accession lines
     """
     accs = set()
-    with open(fn, 'r') as infile:
+    with open_gzip(fn) as infile:
         for l in infile:
             if l.startswith(">"):
                 a = l.rstrip()[1:]
@@ -30,7 +41,7 @@ def ScanTags(fn):
     """
     tags = set()
     tokens = []
-    with open(fn, 'r') as infile:
+    with open_gzip(fn) as infile:
         for line in infile:
             if not line.startswith(">"): continue
             tokens.append([t.split(":", 1) for t in line.rstrip().split() if ":" in t])
@@ -44,7 +55,7 @@ def ScanTags(fn):
 
 def ScanTags_NCBI(fn):
     genes = []
-    with open(fn, 'r') as infile:
+    with open_gzip(fn) as infile:
         for line in infile:
             if not line.startswith(">"): continue
             genes.append(line[1:].split(".", 1)[0])
@@ -52,7 +63,7 @@ def ScanTags_NCBI(fn):
 
 def ScanTags_with_fn(fn, gene_name_fn):
     genes = []
-    with open(fn, 'r') as infile:
+    with open_gzip(fn) as infile:
         for line in infile:
             if not line.startswith(">"): continue
             genes.append(gene_name_fn(line))
@@ -66,7 +77,7 @@ def GetGeneName_Ensembl(acc_line):
     return tokens[0]
 
 def IsNCBI(fn):
-    with open(fn, 'r') as infile:
+    with open_gzip(fn) as infile:
         for l in infile:
             if l.startswith(">"):
                 l = l.rstrip()
@@ -104,7 +115,7 @@ def GetGeneName_NCBI(acc_line):
 def CreatePrimaryTranscriptsFile(fn, dout, gene_name_fn, q_use_original_accession_line):
     # Get genes and lengths
     max_gene_lens = defaultdict(int)
-    with open(fn, 'r') as infile:
+    with open_gzip(fn) as infile:
         lines = [l.rstrip() for l in infile]
     N = len(lines) - 1
     nAcc = 0
@@ -142,7 +153,11 @@ def CreatePrimaryTranscriptsFile(fn, dout, gene_name_fn, q_use_original_accessio
     # Parse file second time and only write out sequences that are longest variant
     nGenesWriten = 0
     outfn = dout + os.path.basename(fn)
-    with open(outfn, 'w') as outfile:
+    if outfn.endswith(".gz"):
+        outfile_handle = gzip.open(outfn, "wt")
+    else:
+        outfile_handle = open(outfn, "w")
+    with outfile_handle as outfile:
         iLine = -1
         while iLine < N:
             iLine += 1
