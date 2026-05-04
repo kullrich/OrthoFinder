@@ -155,7 +155,7 @@ Command-line options for OrthoFinder
   | Parameter | Description                               | Default   | Options                                                                                     |
   |-----------|-------------------------------------------|-----------|---------------------------------------------------------------------------------------------|
   | `-M`      | Method for gene tree inference.           | `msa`     | `dendroblast`, `msa`                                                                        |
-  | `-S`      | Sequence search program                   | `diamond` | `blast`, `diamond`, `diamond_ultra_sens`, `blastp`, `mmseqs`, `blastn` |
+  | `-S`      | Sequence search program                   | `diamond` | `blast`, `diamond`, `diamond_ultra_sens`, `blastp`, `mmseqs`, `blastn`, `last` |
   | `-A`      | MSA program, requires `-M msa`            | `famsa`   | `famsa`, `mafft`, `muscle`,                                                          |
   | `-T`      | Tree inference method, requires `-M msa`  | `fasttree`| `fasttree`, `fasttree_fastest`, `raxml`, `iqtree`                               |
   | `-I`      | MCL inflation parameter                   | `1.2`     | `1-10`                                                                                         |
@@ -293,6 +293,7 @@ We have tested OrthoFinder v3.1 on debian 12.9, centOS v8, macOS 14.4.1, macOS 1
 - Biopython `>=1.85`
 - Rich `>=14.1.0`
 - Scikit-learn `>=1.7.1`
+- last `>=1651`
 
 ## Meet the team
 
