@@ -102,7 +102,7 @@ def DoOrthogroups(
         speciesXML=None,
         i_unassigned=None,
         GRACE_PERIOD = 10.,
-        STALL_TIMEOUT = 200.
+        STALL_TIMEOUT = 99999.
     ):
 
     # Run Algorithm, cluster and output cluster files with original accessions
