@@ -333,7 +333,7 @@ def ManageQueueNew(
         nprocess, 
         result_queue, 
         GRACE_PERIOD = 10.,
-        STALL_TIMEOUT = 200.
+        STALL_TIMEOUT = 99999.
     ):
     
     progressbar, task = util.get_progressbar(total_tasks)
